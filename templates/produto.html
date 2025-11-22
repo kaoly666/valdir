@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Camelo Danger - {{ produto.nome }}{% endblock %}
+
+{% block tagline %}{{ produto.nome }}{% endblock %}
+
+{% block page_name %}Produto{% endblock %}
+
+{% block banner %}
+<section class="hero-banner">
+    <div class="banner-content">
+        <h2>{{ produto.nome }}</h2>
+        {% if produto.descricao %}
+            <p>{{ produto.descricao|truncate(140, True, '...') }}</p>
+        {% else %}
+            <p>Detalhes do produto</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="product-detail container">
+    <div class="product-detail-grid">
+        <div class="product-detail-image">
+            <img src="{{ produto.imagem or '/static/images/placeholder.jpeg' }}" alt="{{ produto.nome }}" />
+        </div>
+
+        <div class="product-detail-info">
+            <h1 class="product-title">{{ produto.nome }}</h1>
+            <div class="product-meta">
+                <div class="product-price">R$ {{ '%.2f'|format(produto.preco or 0) }}</div>
+                <div class="product-categories">
+                    {% if produto.categorias %}
+                        {% for c in produto.categorias %}
+                            <a href="/produtos?categoria_id={{ c.id }}" class="pill" data-color="{{ c.cor }}">{{ c.nome }}</a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="product-description" style="margin-top:18px; color:var(--text-secondary);">
+                {{ produto.descricao or 'Sem descrição' }}
+            </div>
+
+            <div class="product-actions" style="margin-top:22px; display:flex; gap:12px; align-items:center;">
+                <button class="btn btn-primary" onclick="addToCart('{{ produto.id }}')">Adicionar ao Carrinho</button>
+                <a href="/produtos" class="btn btn-secondary">Voltar</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/product.css') }}">
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Apply category colors to pills set via data-color attribute
+document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.pill[data-color]').forEach(function(el){
+        const color = el.dataset.color;
+        if(color) {
+            el.style.background = color;
+            el.style.color = '#fff';
+            el.style.padding = '6px 10px';
+            el.style.borderRadius = '999px';
+            el.style.marginRight = '8px';
+            el.style.textDecoration = 'none';
+        }
+    });
+});
+</script>
+{% endblock %}

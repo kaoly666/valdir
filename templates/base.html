@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon (uses static/img/cris.png) -->
+    <link rel="icon" href="{{ url_for('static', filename='img/cris.png') }}" type="image/png">
+{# window.isLoggedIn is set per-page in templates to avoid editor lint issues #}
+    <title>{% block title %}Camelo Danger - E-commerce{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v={{ config['LAST_MODIFIED'] or '1' }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/notifications.css') }}">
+    {% block head %}{% endblock %}
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1 class="brand">Camelo Danger</h1>
+            <p class="tagline">{% block tagline %}Sua loja de jogos e acessórios gamer{% endblock %}</p>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-list">
+                {% if session.get('user_id') %}
+                    <li><a href="/produtos" class="{% if request.endpoint == 'produtos' %}active{% endif %}">Produtos</a></li>
+                    {# Favoritos removed per request #}
+                    <li><a href="/perfil" class="{% if request.endpoint == 'perfil' %}active{% endif %}">Meu Perfil</a></li>
+                    <li><a href="/carrinho" class="{% if request.endpoint == 'carrinho' %}active{% endif %}">Carrinho</a></li>
+                        {% if get_current_user() and get_current_user().is_admin %}
+                            <li><a href="/sql" class="{% if request.endpoint == 'sql' %}active{% endif %}">SQL</a></li>
+                        {% endif %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login" class="{% if request.endpoint == 'login' %}active{% endif %}">Login</a></li>
+                    <li><a href="/cadastro" class="{% if request.endpoint == 'cadastro' %}active{% endif %}">Cadastro</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    {% block banner %}{% endblock %}
+
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Camelo Danger | {% block page_name %}Página{% endblock %}</p>
+        </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}?v=2" defer></script>
+    <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Camelo Danger - Carrinho{% endblock %}
+
+{% block tagline %}Confira seus itens e finalize a compra{% endblock %}
+
+{% block page_name %}Carrinho{% endblock %}
+
+{% block banner %}
+<section class="cart-banner">
+    <div class="banner-content">
+        <h2>Seu Carrinho</h2>
+        <p>Confira seus itens e finalize a compra com segurança</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="cart-container" data-cart-page>
+    <div class="cart-empty-state">
+        <div class="empty-cart-icon"></div>
+        <h3>Seu carrinho está vazio</h3>
+        <p>Adicione alguns produtos incríveis ao seu carrinho!</p>
+        <a href="/produtos" class="btn btn-primary">Continuar Comprando</a>
+    </div>
+</div>
+{% endblock %}
+{# window.isLoggedIn is intentionally not injected here to avoid editor lint issues; base templates or other pages may set it when necessary #}

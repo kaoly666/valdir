@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Camelo Danger - Checkout{% endblock %}
+
+{% block tagline %}Finalize sua compra com segurança{% endblock %}
+
+{% block page_name %}Checkout{% endblock %}
+
+{% block banner %}
+<section class="checkout-banner">
+    <div class="banner-content">
+        <h2>Finalizar Compra</h2>
+        <p>Revise seu pedido e finalize a compra com segurança</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-container" data-checkout-page>
+    <div class="checkout-loading">
+        <div class="loading-spinner"></div>
+        <p>Carregando checkout...</p>
+    </div>
+</div>
+{% endblock %}
+{% block extra_head %}
+<script>
+    window.isLoggedIn = {{ (session.get('user_id') is not none) | tojson }};
+</script>
+{% endblock %}

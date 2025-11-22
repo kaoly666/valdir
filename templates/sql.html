@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Camelo Danger - Database Viewer{% endblock %}
+
+{% block tagline %}Gerencie usuários, produtos e dados do sistema{% endblock %}
+
+{% block page_name %}SQL Database{% endblock %}
+
+{% block banner %}
+<section class="admin-banner">
+    <div class="banner-content">
+        <h2>Database Viewer</h2>
+        <p>Gerencie usuários, produtos e dados do sistema</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="sql-container" id="sql-container">
+    <!-- Tables will be loaded here via JavaScript -->
+    <div class="loading">Carregando dados...</div>
+</div>
+
+<!-- Modal for Add/Edit -->
+<div id="modal" class="modal-admin">
+    <div class="modal-admin-content">
+        <div class="modal-admin-header">
+            <h2 class="modal-admin-title" id="modal-title">Adicionar Registro</h2>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <form id="modal-form">
+            <input type="hidden" id="table-name" name="table_name">
+            <input type="hidden" id="record-id" name="record_id">
+            <div id="form-fields"></div>
+            <div style="padding-bottom: 1rem;"></div>
+            <button type="submit" class="btn-admin btn-admin-success" style="width: 100%; margin-top: 1rem; position: sticky; bottom: 0; z-index: 10;">
+                Salvar
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sql.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}">
+<script>
+    window.isLoggedIn = {{ (session.get('user_id') is not none) | tojson }};
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/modal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sql.js') }}"></script>
+{% endblock %}

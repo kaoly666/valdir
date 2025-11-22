@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Camelo Danger{% endblock %}
+
+{% block tagline %}Entre na sua conta{% endblock %}
+
+{% block page_name %}Login{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h1>Login</h1>
+    <form action="/login" method="POST">
+        <div class="form-row">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-row">
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+
+    <p style="margin-top: 20px; color: var(--text-secondary);">
+        Não tem conta? <a href="/cadastro" style="color: var(--accent-primary);">Cadastre-se</a>
+    </p>
+</div>
+{% endblock %}
+{% block extra_head %}
+<script>
+    window.isLoggedIn = {{ (session.get('user_id') is not none) | tojson }};
+</script>
+{% endblock %}

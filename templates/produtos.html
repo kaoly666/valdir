@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Camelo Danger - Produtos{% endblock %}
+
+{% block tagline %}PRODUTOS{% endblock %}
+
+{% block page_name %}Produtos{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/features/search.css') }}">
+{# favorites css removed #}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/features/reviews.css') }}">
+<script>
+    window.isLoggedIn = {{ (session.get('user_id') is not none) | tojson }};
+</script>
+{% endblock %}
+
+{% block banner %}
+<section class="hero-banner">
+    <div class="banner-content">
+        <h2>PRODUTOS</h2>
+        <p>Explore nossa seleção de jogos e acessórios — qualidade, variedade e ofertas frequentes.</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<!-- Sistema de Busca e Filtros -->
+
+<!-- Search bar outside big filters card -->
+<div class="search-bar" style="margin-bottom: 18px; display:flex; justify-content:center; align-items:center; gap:12px;">
+    {% if session.get('user_id') %}
+    <div class="add-product-wrapper" style="margin-right: 8px;">
+        <button id="add-product-btn" class="btn btn-success">
+            <i class="fas fa-plus"></i> Adicionar Produto
+        </button>
+    </div>
+    {% endif %}
+
+    <div class="search-input-group" style="max-width: 720px; margin: 0 auto; display:flex; align-items:center; gap:8px;">
+        <input type="text" id="search-input" placeholder="Digite o nome do produto...">
+        <button id="search-btn" title="Buscar" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+</div>
+
+<div class="search-container">
+    <div class="search-header">
+        <h3 class="search-title">Encontre seu produto ideal</h3>
+        <p class="search-subtitle">Use os filtros abaixo para encontrar exatamente o que procura</p>
+    </div>
+
+    <div class="filters-row">
+        <!-- Add product button moved to search-bar above -->
+
+        <!-- Search input moved outside card -->
+
+        <div class="filter-group">
+            <select id="categoria-filter">
+                <option value="">Todas as categorias</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <input type="number" id="preco-min" placeholder="R$ 0,00" step="0.01" min="0">
+        </div>
+
+        <div class="filter-group">
+            <input type="number" id="preco-max" placeholder="R$ 1000,00" step="0.01" min="0">
+        </div>
+
+        <div class="filter-group">
+            <select id="ordenacao-select">
+                <option value="nome">Nome A-Z</option>
+                <option value="preco_asc">Preço: Menor para Maior</option>
+                <option value="preco_desc">Preço: Maior para Menor</option>
+                <option value="recentes">Mais Recentes</option>
+                <option value="populares">Mais Populares</option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button id="clear-filters" class="btn btn-secondary">
+                <i class="fas fa-eraser"></i> Limpar Filtros
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Resultados da busca -->
+<div class="results-header">
+    <div id="results-count">Carregando produtos...</div>
+    <div id="ordenacao-select" style="display: none;"></div>
+</div>
+
+<div class="products-grid" id="products-grid">
+    <!-- Produtos serão carregados via JavaScript -->
+</div>
+
+<!-- Paginação -->
+<div id="pagination"></div>
+
+<!-- Modal de Produto Detalhado (para futuras expansões) -->
+<div id="product-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modal-product-title">Produto</h3>
+            <span class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body" id="modal-product-content">
+            <!-- Conteúdo será carregado dinamicamente -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/features/search.js') }}?v=3"></script>
+<script src="{{ url_for('static', filename='js/features/reviews.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Camelo Danger - Adicionar Produto{% endblock %}
+
+{% block tagline %}Adicione novos produtos à nossa loja{% endblock %}
+
+{% block page_name %}Adicionar Produto{% endblock %}
+
+{% block head %}
+<style>
+.add-product-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.add-product-form {
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 145, 0, 0.3);
+    border: 1px solid var(--border-color);
+}
+
+.form-help {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+</style>
+<script>
+    window.isLoggedIn = {{ (session.get('user_id') is not none) | tojson }};
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="add-product-container">
+    <div class="add-product-form">
+        <h2 style="color: var(--accent-primary); margin-bottom: 20px; text-align: center;">
+            Adicionar Novo Produto
+        </h2>
+
+        <form method="POST" action="/adicionar_produto" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-row">
+                    <label for="nome" class="form-label">
+                        Nome do Produto <span class="required">*</span>
+                    </label>
+                    <input type="text" id="nome" name="nome" class="form-input" required
+                           placeholder="Ex: RTX 4070 Super">
+                </div>
+
+                <div class="form-row">
+                    <label for="preco" class="form-label">
+                        Preço (R$) <span class="required">*</span>
+                    </label>
+                    <input type="number" id="preco" name="preco" class="form-input" step="0.01" min="0" required
+                           placeholder="0.00">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="categoria_id" class="form-label">Categoria <span class="required">*</span></label>
+                <select id="categoria_id" name="categoria_id" class="form-select" required>
+                    <option value="">Selecione uma categoria</option>
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-help">Escolha a categoria que melhor descreve seu produto</div>
+            </div>
+
+            <div class="form-row">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea id="descricao" name="descricao" class="form-textarea"
+                          placeholder="Descreva seu produto detalhadamente..."></textarea>
+                <div class="form-help">Forneça informações sobre o produto, características, especificações, etc.</div>
+            </div>
+
+            <div class="form-row">
+                <label for="imagem" class="form-label">Imagem do Produto</label>
+                <input type="file" id="imagem" name="imagem" class="form-input" accept="image/*">
+                <div class="form-help">Selecione uma imagem do produto (PNG, JPG, JPEG, GIF, WebP). Se não selecionar, será usada uma imagem padrão.</div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">
+                    Adicionar Produto
+                </button>
+                <a href="/produtos" class="btn btn-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

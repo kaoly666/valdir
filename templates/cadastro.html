@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro - Camelo Danger{% endblock %}
+
+{% block tagline %}Crie sua conta{% endblock %}
+
+{% block page_name %}Cadastro{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <h1>Cadastro</h1>
+    <form method="POST">
+        <div class="form-row">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+        </div>
+
+        <div class="form-row">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-row">
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+        </div>
+
+        <div class="form-row">
+            <label for="idade">Idade:</label>
+            <input type="number" id="idade" name="idade" required>
+        </div>
+
+        <div class="form-row">
+            <label for="endereco">Endereço (opcional):</label>
+            <input type="text" id="endereco" name="endereco">
+        </div>
+
+        <div class="form-row">
+            <label for="telefone">Telefone (opcional):</label>
+            <input type="text" id="telefone" name="telefone">
+        </div>
+
+        <div class="form-row">
+            <label for="is_admin" style="display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" id="is_admin" name="is_admin" value="1">
+                Conta de Administrador (acesso ao painel SQL)
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+
+    <div class="links" style="margin-top: 20px;">
+        <a href="/login" style="color: var(--success);">Já tem conta? Faça login</a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul style="color: var(--danger); margin-top: 20px; list-style: none; padding: 0;">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}
+{% block extra_head %}
+<script>
+    window.isLoggedIn = {{ (session.get('user_id') is not none) | tojson }};
+</script>
+{% endblock %}

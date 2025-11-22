@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Camelo Danger - Meu Perfil{% endblock %}
+
+{% block tagline %}Gerencie suas informações pessoais{% endblock %}
+
+{% block page_name %}Perfil{% endblock %}
+
+{% block banner %}
+<section class="profile-banner">
+    <div class="banner-content">
+        <h2>Meu Perfil</h2>
+        <p>Gerencie suas informações pessoais e preferências</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <img id="profile-image" src="{{ url_for('static', filename='pic/' + (usuario.foto_perfil or 'default.png')) }}" alt="Foto de perfil" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-primary);">
+                <button class="btn-edit" id="change-photo-btn" onclick="changeProfilePhoto()" title="Alterar foto de perfil" style="position: absolute; bottom: 0; right: 0; background: var(--accent-primary); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                    <i class="fas fa-camera"></i>
+                </button>
+            </div>
+            <div class="profile-greeting">
+                <h1 id="nome-display">Olá, {{ usuario.nome }}!</h1>
+                <p class="profile-email">{{ usuario.email }}</p>
+            </div>
+        </div>
+
+        <div class="profile-photo-section">
+            <button class="btn-secondary" id="upload-photo-btn" onclick="uploadProfilePhoto()" title="Alterar foto">
+                Alterar foto
+            </button>
+            <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+        </div>
+
+        <div class="profile-details">
+            <div class="detail-group">
+                <h3>Informações Pessoais</h3>
+
+                <div class="detail-row">
+                    <label class="detail-label">Nome:</label>
+                    <div class="detail-value">
+                        <span id="nome-value">{{ usuario.nome }}</span>
+                        <button class="btn-edit" id="edit-nome-btn" onclick="editNome()" title="Editar nome">
+                            Editar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <label class="detail-label">Email:</label>
+                    <div class="detail-value">
+                        <span>{{ usuario.email }}</span>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <label class="detail-label">Idade:</label>
+                    <div class="detail-value">
+                        <span id="idade-value">{{ usuario.idade }} anos</span>
+                        <button class="btn-edit" id="edit-idade-btn" onclick="editIdade()" title="Editar idade">
+                            Editar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <label class="detail-label">Endereço:</label>
+                    <div class="detail-value">
+                        <span id="endereco-value">{{ usuario.endereco or 'Não informado' }}</span>
+                        <button class="btn-edit" id="edit-endereco-btn" onclick="editEndereco()" title="Editar endereço">
+                            Editar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <label class="detail-label">Telefone:</label>
+                    <div class="detail-value">
+                        <span id="telefone-value">{{ usuario.telefone or 'Não informado' }}</span>
+                        <button class="btn-edit" id="edit-telefone-btn" onclick="editTelefone()" title="Editar telefone">
+                            Editar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}">
+<script>
+    window.isLoggedIn = {{ (session.get('user_id') is not none) | tojson }};
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/modal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/perfil.js') }}"></script>
+{% endblock %}
