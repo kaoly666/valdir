@@ -1,4 +1,4 @@
-# Projeto valdirgay - Loja Virtual Completa
+# Projeto valdir - Loja Virtual Completa
 
 Este projeto é uma aplicação Flask completa que implementa uma loja virtual moderna com múltiplas funcionalidades avançadas.
 
